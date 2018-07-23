@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lk.spring_mybatis.dao.UserMapper">
+
+
+
+    <resultMap id="UserResult" type="user" >
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="username" jdbcType="VARCHAR" property="username" />
+        <result column="password" jdbcType="VARCHAR" property="password" />
+        <result column="address" jdbcType="VARCHAR" property="address" />
+
+        <collection property="orders" ofType="order" javaType="ArrayList"  resultMap="OrderResult"/>
+
+
+    </resultMap>
+
+
+    <resultMap id="UserResult2" type="user" >
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="username" jdbcType="VARCHAR" property="username" />
+        <result column="password" jdbcType="VARCHAR" property="password" />
+        <result column="address" jdbcType="VARCHAR" property="address" />
+
+        <collection property="orders" ofType="order" javaType="ArrayList"  column="id" select="select_order" />
+
+
+    </resultMap>
+
+    <select parameterType="int" resultType="order" id="select_order">
+         select * from user_order where user_id = #{id}
+    </select>
+
+
+
+
+    <resultMap id="OrderResult" type="order">
+        <id column="order_id" jdbcType="INTEGER" property="id"/>
+        <result column="user_id" jdbcType="VARCHAR" property="userId" />
+        <result column="order_detail" jdbcType="VARCHAR" property="orderDetail" />
+    </resultMap>
+
+
+    <select id="getUser" resultMap="UserResult" parameterType="Integer">
+        select u.id  , u.username,u.password,u.address,o.user_id ,o.id as order_id ,o.order_detail from user_inf  u left JOIN user_order o on u.id=o.user_id where u.id = #{id}
+    </select>
+
+    <select id="getUsers" resultMap="UserResult2" parameterType="String">
+        select * from user_inf where address = #{name}
+    </select>
+
+    <insert id="insertUser" parameterType="user" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO user_inf(username,password,address) VALUES (#{username},#{password},#{address})
+    </insert>
+    <delete id="deleteUser" parameterType="Integer">
+        DELETE FROM user_inf where id=#{id}
+    </delete>
+</mapper>
+
+
