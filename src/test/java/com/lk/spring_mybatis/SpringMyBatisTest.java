@@ -39,8 +39,8 @@ public class SpringMyBatisTest {
         User user1=new User();
         user1.setUsername("test1");
         user1.setPassword("1234567");
-        userService.saveUser(user1);
-        //userService.getUser(user1);
+        //userService.saveUser(user1);
+        userService.getUser(1);
     }
     
 }

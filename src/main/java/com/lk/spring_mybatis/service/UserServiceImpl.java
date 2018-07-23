@@ -2,6 +2,7 @@ package com.lk.spring_mybatis.service;
 
 import com.lk.spring_mybatis.dao.User;
 import com.lk.spring_mybatis.dao.UserMapper;
+import com.lk.utill.ThreadLocalUtil;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,9 +53,10 @@ public class UserServiceImpl implements UserService{
         try {
             System.out.println("=====================getUser========================");
             System.out.println("AutoCommit:"+sqlSession.getConnection().getAutoCommit());
-
+            ThreadLocalUtil.dumpThreadDetails();
+            System.out.println("=====================getUser  end========================");
             System.out.println("getConnection:"+sqlSession.getConnection());
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -68,9 +70,10 @@ public class UserServiceImpl implements UserService{
         try {
             System.out.println("=====================saveUser========================");
             System.out.println("AutoCommit:"+sqlSession.getConnection().getAutoCommit());
-
+            ThreadLocalUtil.dumpThreadDetails();
+            System.out.println("=====================saveUser  end========================");
             System.out.println("getConnection:"+sqlSession.getConnection());
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
